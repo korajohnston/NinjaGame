@@ -3,7 +3,8 @@ using UnityEngine;
 public class WalkState : PlayerBaseState
 {
     private float walkSpeedMultiplier = 0.5f; // Walk is half speed
-    private float enterTime;
+    private float enterTime; 
+    public bool isWalking;
 
     public WalkState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
@@ -14,15 +15,18 @@ public class WalkState : PlayerBaseState
         enterTime = Time.time;
         // Play walk animation
         if (stateMachine.Animator != null)
+        {
             stateMachine.Animator.Play("Walk");
-        Debug.Log($"[WalkState] Entering Walk State at {enterTime:F2}s");
+            stateMachine.Animator.SetBool("isWalking", isWalking);
+            Debug.Log($"[Walk] Entering Walk State at {enterTime:F2}s");
         // Play walk sound if needed
         // AudioManager.Instance?.Play("WalkSound");
+        }
     }
 
     public override void Tick(float deltaTime)
     {
-        // --- NEW: Check for loss of ground or wall contact ---
+        //Check for loss of ground or wall contact
         if (!stateMachine.IsGrounded())
         {
             if (stateMachine.IsTouchingWall() && stateMachine.RB.linearVelocity.y <= 0)
@@ -42,6 +46,8 @@ public class WalkState : PlayerBaseState
             stateMachine.SwitchState(stateMachine.ShootState);
             return; // Exit early
         }
+
+          //Flip sprite based on input
 
         Vector2 moveInput = stateMachine.GetMovementInput();
 
@@ -97,5 +103,6 @@ public class WalkState : PlayerBaseState
     {
         // Optionally stop walk animation or sound
         Debug.Log($"[WalkState] Exiting Walk State after {Time.time - enterTime:F2}s");
+        stateMachine.Animator.Play("Idle");
     }
 }

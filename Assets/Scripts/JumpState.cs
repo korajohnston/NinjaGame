@@ -19,13 +19,15 @@ public class JumpState : PlayerBaseState
         isWallJump = false;
 
         // --- Start coyote time (grounded grace period) ---
-        stateMachine.GetType().GetField("jumpGroundedGraceTimer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            stateMachine.GetType().GetField("jumpGroundedGraceTimer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
             ?.SetValue(stateMachine, 0.10f);
 
         // Play jump animation
         if (stateMachine.Animator != null)
+        {
             stateMachine.Animator.Play("Jump");
-        Debug.Log($"[JumpState] Entering Jump State at {enterTime:F2}s");
+            Debug.Log($"[Jump] Entering Jump State at {enterTime:F2}s");
+        }
 
         // If grounded, set jumps to MaxJumps - 1 (so the ground jump counts as the first jump)
         bool isWallJumpNow = stateMachine.IsTouchingWall() && !stateMachine.IsGrounded();
@@ -131,6 +133,7 @@ public class JumpState : PlayerBaseState
     public override void Exit()
     {
         Debug.Log($"[JumpState] Exiting Jump State after {Time.time - enterTime:F2}s");
+        stateMachine.Animator.Play("Idle");
     }
 
     // Stub: returns direction away from wall (replace with actual wall normal logic)

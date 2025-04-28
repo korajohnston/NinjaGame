@@ -158,6 +158,9 @@ public class PlayerStateMachine : MonoBehaviour
         wasGroundedLastFrame = isGroundedNow;
 
         currentState?.Tick(Time.deltaTime);
+
+        if (GetMovementInput().x != 0)
+        transform.localScale = new Vector3(Mathf.Round(GetMovementInput().x), 1f, 1f);
     }
 
     public void SwitchState(PlayerBaseState newState)
@@ -188,7 +191,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (stateRegistry.TryGetValue(stateName, out var state))
             return state;
-        return null;
+            return null;
     }
     // Robust ground check using OverlapCircle
     public bool IsGrounded()

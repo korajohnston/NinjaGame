@@ -11,9 +11,12 @@ public class FallState : PlayerBaseState
         enterTime = Time.time;
         // Play fall animation if available
         if (stateMachine.Animator != null)
+        {
             stateMachine.Animator.Play("Fall");
-        Debug.Log($"[FallState] Entering Fall State at {enterTime:F2}s");
+            Debug.Log($"[Fall] Entering Fall State at {enterTime:F2}s");
+        }
     }
+
 
     public override void Tick(float deltaTime)
     {
