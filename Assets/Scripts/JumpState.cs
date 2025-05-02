@@ -8,6 +8,9 @@ public class JumpState : PlayerBaseState
     private bool hasJumped = false;
     private bool isWallJump = false;
 
+    private bool isJumping = false;
+    private bool isFalling = false;
+
     public JumpState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
     }
@@ -17,6 +20,7 @@ public class JumpState : PlayerBaseState
         enterTime = Time.time;
         hasJumped = false;
         isWallJump = false;
+        isJumping = true;
 
         // --- Start coyote time (grounded grace period) ---
             stateMachine.GetType().GetField("jumpGroundedGraceTimer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
@@ -87,6 +91,22 @@ public class JumpState : PlayerBaseState
         // Debug: Print grounded state and vertical velocity every frame in JumpState
         Debug.Log($"[JumpState] Tick: IsGrounded={stateMachine.IsGrounded()} VelocityY={stateMachine.RB.linearVelocity.y}");
 
+        // Check if the player is moving upward or downward
+        if (stateMachine.RB.linearVelocity.y > 0)
+        {
+            Debug.Log("Player is moving upward.");
+            //isJumping = true;
+        }
+        else if (stateMachine.RB.linearVelocity.y < 0)
+        {
+            Debug.Log("Player is moving downward.");
+            //isFalling = true;
+        }
+        else
+        {
+            Debug.Log("Player is not moving vertically.");
+        } 
+    
         // Check for Shoot input first
         if (stateMachine.InputReader.IsShootPressed()) // Use InputReader property
         {
@@ -122,9 +142,16 @@ public class JumpState : PlayerBaseState
             return;
         }
 
+        // check if we are going up or down, only switch to fall state if going down
         // If not grounded and not touching wall, transition to FallState
         if (!stateMachine.IsGrounded() && !stateMachine.IsTouchingWall())
         {
+            // Reset jump state variables
+            //isJumping = false;
+            //isFalling = true;
+            // Transition to FallState
+            Debug.Log("[JumpState] Transitioning to FallState.");
+            stateMachine.JumpsRemaining = stateMachine.MaxJumps; // Reset jumps for fall state
             stateMachine.SwitchState(stateMachine.FallState);
             return;
         }
