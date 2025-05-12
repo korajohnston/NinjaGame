@@ -95,12 +95,14 @@ public class JumpState : PlayerBaseState
         if (stateMachine.RB.linearVelocity.y > 0)
         {
             Debug.Log("Player is moving upward.");
-            //isJumping = true;
+            isJumping = true;
+            isFalling = false;
         }
         else if (stateMachine.RB.linearVelocity.y < 0)
         {
             Debug.Log("Player is moving downward.");
-            //isFalling = true;
+            isJumping = false;
+            isFalling = true;
         }
         else
         {
@@ -147,13 +149,14 @@ public class JumpState : PlayerBaseState
         if (!stateMachine.IsGrounded() && !stateMachine.IsTouchingWall())
         {
             // Reset jump state variables
-            //isJumping = false;
-            //isFalling = true;
             // Transition to FallState
+            if (isFalling)
+            {
             Debug.Log("[JumpState] Transitioning to FallState.");
             stateMachine.JumpsRemaining = stateMachine.MaxJumps; // Reset jumps for fall state
             stateMachine.SwitchState(stateMachine.FallState);
             return;
+            }
         }
     }
 
