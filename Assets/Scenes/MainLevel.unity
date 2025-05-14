@@ -309,7 +309,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8869587534169411894, guid: 2d1440d08b6964edda309a1f39645834, type: 3}
       propertyPath: levelFileName
-      value: 
+      value: New Piskel (9) (2).png
+      objectReference: {fileID: 0}
+    - target: {fileID: 8869587534169411894, guid: 2d1440d08b6964edda309a1f39645834, type: 3}
+      propertyPath: colorToPrefab.Array.data[0].color.rgba
+      value: 4291938237
+      objectReference: {fileID: 0}
+    - target: {fileID: 8869587534169411894, guid: 2d1440d08b6964edda309a1f39645834, type: 3}
+      propertyPath: colorToPrefab.Array.data[1].color.rgba
+      value: 4278256645
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

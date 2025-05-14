@@ -20,6 +20,8 @@ public abstract class PlayerBaseState
 public class PlayerStateMachine : MonoBehaviour
 {
     private bool wasGroundedLastFrame = true;
+    
+
 
     // --- Coyote time (grounded grace period) ---
     private float jumpGroundedGraceTimer = 0f;
@@ -214,6 +216,7 @@ public class PlayerStateMachine : MonoBehaviour
         }
         return grounded;
     }
+
 
     // Simple wall check (replace with your own logic)
     public bool IsTouchingWall()

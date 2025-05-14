@@ -163,10 +163,10 @@ MonoBehaviour:
   <WallJumpForce>k__BackingField: 7.5
   <MaxJumps>k__BackingField: 2
   playerCollider: {fileID: 1779346489392483852}
-  standingColliderSize: {x: 1, y: 2}
+  standingColliderSize: {x: 0.5, y: 1}
   standingColliderOffset: {x: 0, y: 0}
-  crouchingColliderSize: {x: 1, y: 1}
-  crouchingColliderOffset: {x: 0, y: -0.5}
+  crouchingColliderSize: {x: 0.5, y: 0.5}
+  crouchingColliderOffset: {x: 0, y: -0.25}
   standUpCheckDistance: 0.1
   groundLayer:
     serializedVersion: 2
@@ -249,6 +249,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de1c52a164ab4d29ba6b168d5fae996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coins: 0
+  coinText: {fileID: 0}
+  coin: {fileID: 0}
 --- !u!1 &6734205709435017409
 GameObject:
   m_ObjectHideFlags: 0

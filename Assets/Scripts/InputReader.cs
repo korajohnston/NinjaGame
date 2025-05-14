@@ -38,7 +38,7 @@ public class InputReader
     {
         // Use GetKey for continuous check while held
         // Consider making the key configurable
-        return Input.GetKey(KeyCode.C);
+        return Input.GetKey(KeyCode.DownArrow);
     }
 
     public bool IsShootPressed()
