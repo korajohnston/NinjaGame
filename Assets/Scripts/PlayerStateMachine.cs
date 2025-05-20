@@ -46,7 +46,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     [Header("Crouch Settings")]
     [SerializeField] public float CrouchSpeedMultiplier { get; private set; } = 0.25f; // Half of WalkState's 0.5 multiplier
-
+    public bool IsShootPressed;
 
     private PlayerBaseState currentState;
 

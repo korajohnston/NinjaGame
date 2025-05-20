@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 458998}
   - component: {fileID: 21260024}
   - component: {fileID: -3310426732588345742}
+  - component: {fileID: 7974695862535890796}
   m_Layer: 6
   m_Name: Item Box
-  m_TagString: Untagged
+  m_TagString: MysteryBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +119,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -134,3 +135,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7974695862535890796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8dd1340da0f94c7d9a7e4c43fcd954d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coin: {fileID: 193220, guid: 4452304ede9b69b4db8ef1d677b45639, type: 3}

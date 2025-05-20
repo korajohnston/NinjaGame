@@ -6,6 +6,7 @@ public class ShootState : PlayerBaseState
     // No factory needed based on PlayerStateMachine.cs structure
 
     public ShootState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    public GameObject projectilePrefab; // Prefab for the projectile
 
     public override void Enter()
     {
@@ -21,6 +22,12 @@ public class ShootState : PlayerBaseState
         // Check for transitions out of the shoot state
         // Check for transitions out of the shoot state
         CheckSwitchStates(); // We'll keep this helper method for clarity
+
+        /*if (Input.GetMouseButtonDown(0)) // Example input for shooting
+        {
+            FireProjectile();
+        }
+        */
     }
 
     public override void Exit()
@@ -29,6 +36,32 @@ public class ShootState : PlayerBaseState
         Debug.Log("Player exited Shoot State");
         // Ctx.Animator.SetBool("IsShooting", false); // Example animation reset
     }
+
+    /*private void FireProjectile()
+    {
+        // Logic to fire a projectile
+         // Instantiate the projectile at the shoot point's position and rotation
+        if (projectilePrefab != null && shootPoint != null)
+        {
+            // Instantiate the projectile at the shoot point's position and rotation
+            GameObject projectile = GameObject.Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
+
+            // Optionally, add force to the projectile if it has a Rigidbody
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                //rb.AddForce(shootPoint.forward * 10f, ForceMode.Impulse); // Adjust force as needed
+            }
+
+            Debug.Log("Projectile fired!");
+        }
+        else
+        {
+            Debug.LogWarning("ProjectilePrefab or ShootPoint is not assigned!");
+        }
+            
+    }
+    */
 
     // Helper method for transition checks (called from Tick)
     private void CheckSwitchStates()
