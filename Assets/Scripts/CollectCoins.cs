@@ -25,7 +25,7 @@ public class CollectCoins : MonoBehaviour
         if (other.gameObject.CompareTag("Coin"))
         {
             coins++; // Increment the coin count
-    
+
             // Update UI text if coinText is assigned
             if (coinText != null)
             {
@@ -35,9 +35,22 @@ public class CollectCoins : MonoBehaviour
             {
                 Debug.LogWarning("coinText is not assigned in the Inspector!");
             }
-    
+
             Destroy(other.gameObject); // Destroy the collected coin
             Debug.Log("Coin collected! Total coins: " + coins);
+        }
+
+        if (other.gameObject.CompareTag("Health"))
+        {
+            // Logic to give the player health
+            Debug.Log("Health collected!");
+            Destroy(other.gameObject); // Destroy the collected health item
+        }
+        if (other.gameObject.CompareTag("Speed"))
+        {
+            // Logic to give the player speed boost
+            Debug.Log("Speed collected!");
+            Destroy(other.gameObject); // Destroy the collected speed item
         }
     }
 }

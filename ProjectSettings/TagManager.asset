@@ -8,6 +8,8 @@ TagManager:
   - CoinText
   - EnemySnail
   - MysteryBox
+  - Speed
+  - Health
   layers:
   - Default
   - TransparentFX
