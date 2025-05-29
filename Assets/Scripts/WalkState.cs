@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class WalkState : PlayerBaseState
 {
-    private float walkSpeedMultiplier = 0.5f; // Walk is half speed
+    public float walkSpeedMultiplier = 0.5f; // Walk is half speed
     private float enterTime; 
     public bool isWalking;
+
+    private CollectCoins collectCoins; // Reference to CollectCoins script
 
     public WalkState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
@@ -20,7 +22,7 @@ public class WalkState : PlayerBaseState
             stateMachine.Animator.SetBool("isWalking", isWalking);
             Debug.Log($"[Walk] Entering Walk State at {enterTime:F2}s");
         // Play walk sound if needed
-        // AudioManager.Instance?.Play("WalkSound");
+            // AudioManager.Instance?.Play("WalkSound");
         }
     }
 
@@ -40,6 +42,7 @@ public class WalkState : PlayerBaseState
             return;
         }
 
+        
         // Check for Shoot input first
         if (stateMachine.InputReader.IsShootPressed()) // Use InputReader property
         {
