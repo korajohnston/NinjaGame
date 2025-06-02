@@ -15,13 +15,16 @@ public class CollectCoins : MonoBehaviour
     public bool SpeedPotionAvailable = false; // Variable to check if speed potion is available
     public bool HealthPotionAvailable = false; // Variable to check if health potion is available
     private WalkState walkState; // Reference to the WalkState script
-    public float timer = 5f;
-    public float walkSpeedMultiplier; // Variable to store the walk speed multiplier
-
+    private float Walkspeedmultiplier;
+    public float timer = 3f;
+    
+    public PlayerStateMachine stateMachine; // Reference to the StateMachine script
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Find the StateMachine component in the scene
+        stateMachine = FindObjectOfType<PlayerStateMachine>();
         if (coinText == null)
         {
             coinText = GameObject.Find("CoinCounter").GetComponent<TextMeshProUGUI>();
@@ -35,10 +38,10 @@ public class CollectCoins : MonoBehaviour
             speedPotionText = GameObject.Find("SpeedCounter").GetComponent<TextMeshProUGUI>();
         }
 
-        walkState = GetComponent<WalkState>();
+        walkState = stateMachine.WalkState; // Get the WalkState component from the StateMachine
         if (walkState != null)
         {
-            walkSpeedMultiplier = walkState.walkSpeedMultiplier; // Get the walk speed multiplier from WalkState
+            Walkspeedmultiplier = walkState.walkSpeedMultiplier; // Get the walk speed multiplier from WalkState
         }
         else
         {
@@ -57,12 +60,19 @@ public class CollectCoins : MonoBehaviour
     {
         if (walkState != null && SpeedPotionAvailable && Input.GetKeyDown(KeyCode.E)) 
         {
-            walkSpeedMultiplier = walkState.walkSpeedMultiplier * 3f; // Get the walk speed multiplier from WalkStat
-            Debug.Log("Speed potion collected! Speed increased for 5 seconds.");
-
-            if (timer > 0)
+            Walkspeedmultiplier = stateMachine.WalkState.walkSpeedMultiplier; // Get the walk speed multiplier from WalkState
+            stateMachine.WalkState.walkSpeedMultiplier = 10f; // Set walk speed multiplier to 2x
+            print("trying to use speed potion");
+            print((walkState.walkSpeedMultiplier) + "walk speed multiplier");
+            timer = 3f; // Reset timer for speed potion effect duration
+            print("Speed potion timer: " + timer);
+            timer -= Time.deltaTime; // Decrease timer
+         
+            if (timer <= 0)
             {
-                timer -= Time.deltaTime; // Decrease timer
+                walkState.walkSpeedMultiplier = 0.5f;// Reset walk speed multiplier
+                timer = 3f; // Reset timer for next use
+                print("Speed potion used!");
             }
             else
             {
