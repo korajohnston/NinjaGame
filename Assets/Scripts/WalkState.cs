@@ -6,8 +6,6 @@ public class WalkState : PlayerBaseState
     private float enterTime; 
     public bool isWalking;
 
-    private CollectCoins collectCoins; // Reference to CollectCoins script
-
     public WalkState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
     }
