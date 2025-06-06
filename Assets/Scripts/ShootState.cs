@@ -5,52 +5,43 @@ public class ShootState : PlayerBaseState
     // Store reference to the state machine
     // No factory needed based on PlayerStateMachine.cs structure
 
-    public ShootState(PlayerStateMachine stateMachine) : base(stateMachine) { }
-    public GameObject projectilePrefab; // Prefab for the projectile
+    public ShootState(PlayerStateMachine stateMachine) : base(stateMachine)
+    { 
+        if (stateMachine.ShootPoint == null)
+    {
+        Debug.LogError("ShootPoint is null! Please ensure it is assigned.");
+    }
+    else
+    {
+        stateMachine.ShootPoint = GameObject.FindWithTag("ShootPoint")?.transform;
+    }
+    }
+
+    public PlayerStateMachine stateMachine; // Reference to the PlayerStateMachine script
 
     public override void Enter()
     {
         // Logic when entering the shoot state (e.g., play animation, aim)
         Debug.Log("Player entered Shoot State");
+        //shootPoint = GameObject.FindWithTag("ShootPoint")?.transform;
         // Ctx.Animator.SetBool("IsShooting", true); // Example animation trigger
     }
+
 
     public override void Tick(float deltaTime)
     {
         // Logic during the shoot state (e.g., handle firing cooldown, check ammo)
 
-        // Check for transitions out of the shoot state
-        // Check for transitions out of the shoot state
-        CheckSwitchStates(); // We'll keep this helper method for clarity
-
-        /*if (Input.GetMouseButtonDown(0)) // Example input for shooting
-        {
-            FireProjectile();
-        }
-        */
-    }
-
-    public override void Exit()
-    {
-        // Logic when exiting the shoot state (e.g., stop animation)
-        Debug.Log("Player exited Shoot State");
-        // Ctx.Animator.SetBool("IsShooting", false); // Example animation reset
-    }
-
-    /*private void FireProjectile()
-    {
-        // Logic to fire a projectile
-         // Instantiate the projectile at the shoot point's position and rotation
-        if (projectilePrefab != null && shootPoint != null)
+        if (stateMachine.ProjectilePrefab != null && stateMachine.ShootPoint != null)
         {
             // Instantiate the projectile at the shoot point's position and rotation
-            GameObject projectile = GameObject.Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
+            GameObject projectile = GameObject.Instantiate(stateMachine.ProjectilePrefab, stateMachine.ShootPoint.position, stateMachine.ShootPoint.rotation);
 
             // Optionally, add force to the projectile if it has a Rigidbody
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                //rb.AddForce(shootPoint.forward * 10f, ForceMode.Impulse); // Adjust force as needed
+                rb.AddForce(stateMachine.ShootPoint.forward * 10f, ForceMode.Impulse); // Adjust force as needed
             }
 
             Debug.Log("Projectile fired!");
@@ -59,10 +50,18 @@ public class ShootState : PlayerBaseState
         {
             Debug.LogWarning("ProjectilePrefab or ShootPoint is not assigned!");
         }
-            
-    }
-    */
 
+        CheckSwitchStates();
+
+    }
+
+    public override void Exit()
+    {
+        // Logic when exiting the shoot state (e.g., stop animation)
+        Debug.Log("Player exited Shoot State");
+        // Ctx.Animator.SetBool("IsShooting", false); // Example animation reset
+    }
+      
     // Helper method for transition checks (called from Tick)
     private void CheckSwitchStates()
     {

@@ -12,6 +12,7 @@ TagManager:
   - Health
   - SpeedCounter
   - HealthCounter
+  - ShootPoint
   layers:
   - Default
   - TransparentFX

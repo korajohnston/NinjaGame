@@ -64,6 +64,8 @@ public class PlayerStateMachine : MonoBehaviour
     public WallClingState WallClingState { get; private set; }
     public ShootState ShootState { get; private set; } // Add ShootState declaration
     public FallState FallState { get; private set; } // Add FallState declaration
+    public GameObject ProjectilePrefab; // Assign projectile prefab in Inspector
+    public Transform ShootPoint; // Assign shoot point in Inspector
 
     // Component References (Example)
     public Rigidbody2D RB { get; private set; }

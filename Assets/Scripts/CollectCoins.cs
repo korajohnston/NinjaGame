@@ -16,6 +16,7 @@ public class CollectCoins : MonoBehaviour
     public bool HealthPotionAvailable = false; // Variable to check if health potion is available
     private float moveSpeed;
     public float timer = 5f;
+    public int health = 5; // Player's health
     
     public PlayerStateMachine stateMachine; // Reference to the PlayerStateMachine script
 
@@ -36,6 +37,10 @@ public class CollectCoins : MonoBehaviour
         {
             speedPotionText = GameObject.Find("SpeedCounter").GetComponent<TextMeshProUGUI>();
         }
+        if (healthText == null)
+        {
+            healthText = GameObject.Find("HealthRCounter").GetComponent<TextMeshProUGUI>();
+        }
 
         moveSpeed = stateMachine.MoveSpeed; // Get the walk speed multiplier from WalkState
     
@@ -45,8 +50,18 @@ public class CollectCoins : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SpeedPotionAvailable && Input.GetKeyDown(KeyCode.A)) 
+        healthText.text = "Health: " + health; // Update health UI text
+        healthPotionText.text = "Health Potions: " + healthPotion; // Update health potion UI text
+        speedPotionText.text = "Speed Potions: " + speedPotion; // Update speed potion UI text
+        coinText.text = "Coins: " + coins; // Update coin UI text
+        if (SpeedPotionAvailable && Input.GetKeyDown(KeyCode.A))
         {
+            print("Trying to use speed potion");
+            print("Move speed: " + stateMachine.MoveSpeed);
+            timer -= Time.deltaTime; // Decrease timer
+            print("Speed potion timer: " + timer);
+            speedPotion--; // Decrease speed potion count
+            
             if (stateMachine != null)
             {
                 stateMachine.MoveSpeed = 15f;
@@ -55,19 +70,39 @@ public class CollectCoins : MonoBehaviour
             {
                 Debug.LogError("stateMachine is not assigned!");
             }
-            print("Trying to use speed potion");
-            print("Move speed: " + stateMachine.MoveSpeed);
-            timer -= Time.deltaTime; // Decrease timer
-            print("Speed potion timer: " + timer);
+        }
 
-            if (timer <= 0)
+        if (timer <= 0)
+        {
+            stateMachine.MoveSpeed = 5f; // Reset walk speed multiplier
+            timer = 5f; // Reset timer for next use
+            SpeedPotionAvailable = false; // Reset speed potion availability
+            print("Speed potion effect ended. Move speed reset!");
+        }
+
+        if (HealthPotionAvailable && Input.GetKeyDown(KeyCode.H))
+        {
+            if (health < 5) // Assuming max health is 5
             {
-                stateMachine.MoveSpeed = 5f; // Reset walk speed multiplier
-                timer = 5f; // Reset timer for next use
-                SpeedPotionAvailable = false; // Reset speed potion availability
-                print("Speed potion effect ended. Move speed reset!");
+                health += 1; // Increase health by 1
+                healthText.text = "Health: " + health; // Update health UI text
+                healthPotion--; // Decrease health potion count
+
+                if (healthPotionText != null)
+                {
+                    healthPotionText.text = "Health Potions: " + healthPotion;
+                }
+                else
+                {
+                    Debug.LogWarning("healthPotionText is not assigned in the Inspector!");
+                }
+            }
+            else
+            {
+                print("Health is already full!");
             }
         }
+    
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -95,7 +130,7 @@ public class CollectCoins : MonoBehaviour
         {
             // Logic to give the player health
             print("Health collected!");
-            healthPotion ++; // Increment health potion count
+            healthPotion++; // Increment health potion count
             print(healthPotion);
             HealthPotionAvailable = true; // Set health potion availability to true
 
@@ -124,6 +159,12 @@ public class CollectCoins : MonoBehaviour
                 Debug.LogWarning("speedPotionText is not assigned in the Inspector!");
             }
             Destroy(other.gameObject); // Destroy the collected speed item
+        }
+
+        if (other.gameObject.CompareTag("EnemySnail"))
+        {
+            health = health - 1; // Decrease health by 1 when colliding with an enemy snail
+            healthText.text = "Health: " + health;
         }
     }
 }
